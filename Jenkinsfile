@@ -5,14 +5,14 @@ pipeline {
 		}
 
 	stages {
-		stage ('hello') {
+		stage ('compile') {
 			steps {
 				echo "sai"
 				sh 'ls -l'
 				echo "checking mvn is installed or not"
 				sh '${mvn} -h'
 				echo "compiling the code"
-				sh '${mvn} compile'
+				sh '${mvn} package'
 				}
 			}
 		}
