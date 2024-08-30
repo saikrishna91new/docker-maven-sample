@@ -17,7 +17,6 @@ pipeline {
 			}
 		stage ('build image') {
 			steps {
-				
 				echo "building the docker image"
 				sh 'docker build -t testimage:latest .'
 				}
@@ -26,4 +25,4 @@ pipeline {
 	}
 
 
-docker build -t demo:latest .
+
