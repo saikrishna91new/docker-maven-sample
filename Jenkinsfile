@@ -19,9 +19,17 @@ pipeline {
 			steps {
 				echo "building the docker image"
 				sh 'docker build -t testimage:latest .'
+				sh 'docker tag testimage:latest dockerhubtestsai.azurecr.io:v1.0.0'
 				}
 			}
+		stage('push image') {
+			steps {
+			withCredentials([usernamePassword(credentialsId: 'docker hub', passwordVariable: 'acrpswrd', usernameVariable: 'jenkins')]) {
+ 			sh 'docker push testimage:latest dockerhubtestsai.azurecr.io:v1.0.0' 		 
+}
+			}
 		}
+	}
 	}
 
 
