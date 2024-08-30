@@ -25,7 +25,7 @@ pipeline {
 		stage('push image') {
 			steps {
 			withCredentials([usernamePassword(credentialsId: 'docker hub', passwordVariable: 'acrpswrd', usernameVariable: 'jenkins')]) {
- 			sh 'docker push testimage:latest dockerhubtestsai.azurecr.io:v1.0.0' 		 
+ 			sh 'docker push dockerhubtestsai.azurecr.io:v1.0.0' 		 
 }
 			}
 		}
