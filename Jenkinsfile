@@ -2,6 +2,7 @@ pipeline {
 	agent any
 	environment {
  		 mvn = "/home/ubuntu/apache-maven-3.9.9/bin/mvn"
+	  	 acr_cred = credential('docker hub')
 		}
 
 	stages {
@@ -24,10 +25,10 @@ pipeline {
 			}
 		stage('push image') {
 			steps {
-			withCredentials([usernamePassword(credentialsId: 'docker hub', passwordVariable: 'acrpswrd', usernameVariable: 'jenkins')]) {
-			sh 'docker login dockerhubtestsai.azurecr.io'
+			
+			sh 'docker login -u $acr_cred_USR -p $acr_cred_PSW dockerhubtestsai.azurecr.io'
  			sh 'docker push dockerhubtestsai.azurecr.io:v1.0.0' 		 
-}
+
 			}
 		}
 	}
