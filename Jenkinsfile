@@ -2,7 +2,7 @@ pipeline {
 	agent any
 	environment {
  		 mvn = "/home/ubuntu/apache-maven-3.9.9/bin/mvn"
-	  	 acr_cred = credential('docker hub')
+	  	 acr_cred = credentials('docker hub')
 		}
 
 	stages {
