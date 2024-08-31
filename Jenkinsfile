@@ -20,14 +20,14 @@ pipeline {
 			steps {
 				echo "building the docker image"
 				sh 'docker build -t testimage:latest .'
-				sh 'docker tag testimage:latest dockerhubtestsai.azurecr.io:v1.0.0'
+				sh 'docker tag testimage:latest dockerhubtestsai.azurecr.io/samples/testimage:v1.0.0'
 				}
 			}
 		stage('push image') {
 			steps {
 			
 			sh 'docker login -u $acr_cred_USR -p $acr_cred_PSW dockerhubtestsai.azurecr.io'
- 			sh 'docker push dockerhubtestsai.azurecr.io:v1.0.0' 		 
+ 			sh 'docker push dockerhubtestsai.azurecr.io/samples/testimage:v1.0.0' 		 
 
 			}
 		}
