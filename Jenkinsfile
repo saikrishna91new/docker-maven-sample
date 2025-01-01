@@ -3,6 +3,8 @@ pipeline {
 	environment {
  		 mvn = "/home/ubuntu/apache-maven-3.9.9/bin/mvn"
 	  	 acr_cred = credentials('docker hub')
+		  registry = 'http://172.31.38.95/artifactory'
+		 
 		}
 
 	stages {
@@ -23,6 +25,31 @@ pipeline {
 				sh 'docker tag testimage:latest dockerhubtestsai.azurecr.io/samples/testimage:v1.0.0'
 				}
 			}
+	stage("Jar Publish") {
+        steps {
+            script {
+                    echo '<--------------- Jar Publish Started --------------->'
+                     def server = Artifactory.newServer url:${registry}" ,  credentialsId:"artifactory_token"
+                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+                     def uploadSpec = """{
+                          "files": [
+                            {
+                              "pattern": "jarstaging/(*)",
+                              "target": "libs-release-local/{1}",
+                              "flat": "false",
+                              "props" : "${properties}",
+                              "exclusions": [ "*.sha1", "*.md5"]
+                            }
+                         ]
+                     }"""
+                     def buildInfo = server.upload(uploadSpec)
+                     buildInfo.env.collect()
+                     server.publishBuildInfo(buildInfo)
+                     echo '<--------------- Jar Publish Ended --------------->'  
+            
+            }
+        }   
+    }  
 		stage('push image') {
 			steps {
 			
